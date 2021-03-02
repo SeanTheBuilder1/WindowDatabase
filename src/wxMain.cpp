@@ -12,11 +12,7 @@ wxMain::wxMain():wxFrame(nullptr, wxID_ANY, "Gavin Deposoy Simulator", wxDefault
     m_item = new wxTextCtrl(this, 10003, "", wxPoint(10, 70), wxSize(300, 30), wxTE_PROCESS_ENTER);
     m_display = new wxTextCtrl(this, 10004, "", wxPoint(310, 100), wxSize(300, 300), wxTE_MULTILINE | wxTE_READONLY);
     auditor.loadAll();
-    std::vector<std::string> txt;
-    txt.emplace_back("ayy");
-    txt.emplace_back("lmoa");
-    txt.emplace_back("lamafao");
-    
+    displayIndices();
 }
 
 wxMain::~wxMain(){
@@ -25,31 +21,37 @@ wxMain::~wxMain(){
 
 
     
+void wxMain::displayIndices(){
+    std::deque<Item>* temp;
+    
+    if(auditor.getAudit(temp)){
+        m_display->SetEditable(true);
+        m_display->ChangeValue("Loaded Items:");
+        for(auto& i : *temp){
+            m_display->AppendText('\n' + i.getIndex());
+        }
+        m_display->SetEditable(false);
+    }
+}
 
 void wxMain::loadArr(wxCommandEvent& evt){
-    std::cout << "hello\n";
     std::deque<std::string>* contents;
-    if(auditor.getItem(m_item->GetValue().ToStdString(), loadedItem)){
-        std::cout << "hi\n";
-        if(loadedItem->getContents(contents)){
-            for(auto& i : *contents){
-                std::cout << i << '\n';
+    if(auditor.exist(m_item->GetValue().ToStdString())){
+        if(auditor.getItem(m_item->GetValue().ToStdString(), loadedItem)){
+            std::cout << "hi\n";
+            if(loadedItem->getContents(contents)){
+                for(auto& i : *contents){
+                    std::cout << i << '\n';
+                }
+                m_text->ChangeValue(contents->at(0));
+                for(long i = 1; i < contents->size(); ++i){
+                    m_text->AppendText('\n' + contents->at(i));
+                }    
             }
-            m_text->ChangeValue(contents->at(0));
-            for(long i = 1; i < contents->size(); ++i){
-                m_text->AppendText('\n' + contents->at(i));
-            }    
         }
     }
-    
 
-    std::deque<Item>* temp;
-    if(auditor.getAudit(temp)){
-        std::cout << "lamao\n";
-        for(auto& i : *temp){
-            std::cout << i.getIndex() << '\n';
-        }
-    }
+    displayIndices();
     evt.Skip(false);
 }
 

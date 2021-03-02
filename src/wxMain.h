@@ -24,6 +24,7 @@ public:
     wxTextCtrl* m_text = nullptr;
     wxTextCtrl* m_display = nullptr;
 
+    void displayIndices();
     void loadArr(wxCommandEvent& evt);
     void onButtonClick(wxCommandEvent& evt);
     void onEnter(wxCommandEvent& evt);
