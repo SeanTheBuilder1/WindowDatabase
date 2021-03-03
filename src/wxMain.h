@@ -23,7 +23,10 @@ public:
     wxTextCtrl* m_item = nullptr;
     wxTextCtrl* m_text = nullptr;
     wxTextCtrl* m_display = nullptr;
+    wxTextCtrl* m_add = nullptr;
+    wxButton* m_add_button = nullptr;
 
+    void addItem(wxCommandEvent &evt);
     void displayIndices();
     void loadArr(wxCommandEvent& evt);
     void onButtonClick(wxCommandEvent& evt);

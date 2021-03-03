@@ -80,6 +80,11 @@ void Auditor::saveItem(Item& item){
     long beg{0};
     long end{0};
     bool stopper = false;
+    if(slib::fullOfSpace(item.getIndex())){
+        return;
+    }
+
+
     //index line number of item for next iterator
     for(long i = 0; i < database.dataSave.size();  ++i){
         //Check if index matches

@@ -12,15 +12,8 @@ bool Item::readItem(std::string index){
             for(++i; i < database.dataSave.size(); ++i){
                 //If captured string is next index end loop
                 if(std::find(database.dataSave[i].begin(), database.dataSave[i].end(), '`') != database.dataSave[i].end()){
-                    //If no contents found return false
-                    //If contents found save to item and return true 
-                    if(temp.empty()){
-                        return false;
-                    }
-                    else{
-                        contents = temp;
-                        return true;
-                    }
+                    contents = temp;
+                    return true;
                 }
                 temp.emplace_back(database.dataSave[i]);
             }
