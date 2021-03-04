@@ -20,6 +20,8 @@ public:
     void saveItem(Item& item);
     void delItem(const std::string& index);
     bool getItem(const std::string& index, Item* &item);
+    long getAuditID(const std::string& index);
+    long getItemID(const std::string& index);
     void loadAll();
 };
 

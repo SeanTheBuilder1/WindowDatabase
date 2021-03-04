@@ -3,6 +3,7 @@
 
 
 bool Item::readItem(std::string index){
+    Data& database = dataGet();
     std::deque<std::string> temp;
     //Loop database
     for(long i = 0; i < database.dataSave.size(); ++i){

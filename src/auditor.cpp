@@ -15,7 +15,7 @@ void Auditor::addItem(Item& item){
         auto it = std::find(database.dataSave.begin(), database.dataSave.end(), "`");
         std::deque<std::string>* temp;
         if(item.getContents(temp)){
-            //Add index to temp
+            //Add temporary index to temp
             temp->insert(temp->begin(), "`" + item.getIndex());
             temp->emplace_back("`");
             database.dataSave.erase(it);
@@ -23,6 +23,9 @@ void Auditor::addItem(Item& item){
             database.dataSave.insert(it, temp->begin(), temp->end());
             //Save database
             database.saveData(database.dataSave);
+            //Remove temporary index
+            temp->pop_back();
+            temp->pop_front();
             //Add item to audit
             audit.emplace_back(item.getIndex());
             items.emplace_back(item);
@@ -69,6 +72,9 @@ void Auditor::delItem(const std::string& index){
                     database.dataSave.erase(database.dataSave.begin() + i);
                     //Save changes
                     database.saveData(database.dataSave);
+                    items.erase(items.begin() + getItemID(index));
+                    audit.erase(audit.begin() + getAuditID(index));
+                    return;
                 }
             }
         }
@@ -127,6 +133,24 @@ void Auditor::loadAll(){
             }
         }
     }
+}
+
+long Auditor::getAuditID(const std::string& index){
+    for(long i = 0; i < audit.size(); ++i){
+        if(audit[i] == index){
+            return i;
+        }
+    }
+    return -1;
+}
+
+long Auditor::getItemID(const std::string& index){
+    for(long i = 0; i < items.size(); ++i){
+        if(items[i].getIndex() == index){
+            return i;
+        }
+    }
+    return -1;
 }
 
 bool Auditor::getItem(const std::string& index, Item* &item){

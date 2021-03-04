@@ -15,9 +15,8 @@ class Item{
 private:
     std::deque<std::string> contents;
     std::string index;
-    Data& database;
 public:
-    Item(std::string i):database(dataGet()), index(i){};
+    Item(std::string i):index(i){};
     bool readItem(std::string index);
     bool getContents(std::deque<std::string>*& data);
     void editItem(long index, const std::string& replacement);

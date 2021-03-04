@@ -22,7 +22,12 @@ public:
     wxButton* m_button = nullptr;
     wxTextCtrl* m_item = nullptr;
     wxTextCtrl* m_text = nullptr;
-    wxTextCtrl* m_display = nullptr;
+
+    wxListBox* m_display = nullptr;
+    wxButton* m_del_button = nullptr;
+    wxButton* m_load_button = nullptr;
+
+
     wxTextCtrl* m_add = nullptr;
     wxButton* m_add_button = nullptr;
 
@@ -31,6 +36,10 @@ public:
     void loadArr(wxCommandEvent& evt);
     void onButtonClick(wxCommandEvent& evt);
     void onEnter(wxCommandEvent& evt);
+    void delItem(wxCommandEvent &evt);
+    void loadButtonClick(wxCommandEvent& evt);
+    void loadItem(const std::string& index);
+
 
     wxDECLARE_EVENT_TABLE();
 };
