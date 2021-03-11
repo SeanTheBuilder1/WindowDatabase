@@ -38,6 +38,7 @@ public:
     void moveToStart(Item& item);
     void swapItem(Item& item, Item& destination);
     void loadAll();
+    void openDatabase(const std::string& path);
 };
 
 Auditor& getAuditor();

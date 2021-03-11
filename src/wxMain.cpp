@@ -7,6 +7,9 @@ wxBEGIN_EVENT_TABLE(wxMain, wxFrame)
     EVT_TEXT_ENTER(10003, loadArr)
     EVT_BUTTON(10004, delItem)
     EVT_BUTTON(10013, sortButton)
+    EVT_MENU(10014, onOpen)
+    EVT_MENU(10015, onSave)
+    EVT_MENU(10016, onClose)
 wxEND_EVENT_TABLE()
 
 wxMain::wxMain():wxFrame(nullptr, wxID_ANY, "Window Database BETA", wxDefaultPosition, wxSize(800, 450), wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX | wxCAPTION | wxCLIP_CHILDREN){
@@ -39,6 +42,16 @@ wxMain::wxMain():wxFrame(nullptr, wxID_ANY, "Window Database BETA", wxDefaultPos
 
     m_add = new wxTextCtrl(m_add_panel, 10006, "", wxPoint(0, 0), wxSize(300, 30), wxTE_PROCESS_ENTER);
     m_add_button = new wxButton(m_add_panel, 10007, "Add Item", wxPoint(300, 1), wxSize(90, 30));
+
+    m_menu_bar = new wxMenuBar();
+    this->SetMenuBar(m_menu_bar);
+    
+    wxMenu* menu = new wxMenu();
+    menu->Append(10014, "Open");
+    menu->Append(10015, "Save");
+    menu->Append(10016, "Close");
+
+    m_menu_bar->Append(menu, "File");
 
 
 
@@ -85,7 +98,7 @@ wxMain::wxMain():wxFrame(nullptr, wxID_ANY, "Window Database BETA", wxDefaultPos
 }
 
 wxMain::~wxMain(){
-    
+
 }
 
 
@@ -110,8 +123,6 @@ void wxMain::addItem(wxCommandEvent &evt){
     Item item(m_add->GetValue().ToStdString());
     auditor.addItem(item);
     displayIndices();
-    std::cout << m_add_panel->GetSize().GetHeight() << '\n';
-    std::cout << m_add_panel->GetSize().GetWidth() << '\n';
 	evt.Skip(false);
 }
 
@@ -186,4 +197,24 @@ void wxMain::onButtonClick(wxCommandEvent& evt){
     evt.Skip();
 }
 
+void wxMain::onOpen(wxCommandEvent& evt){
+    wxFileDialog* fileDlg = new wxFileDialog(this, _("Choose the Database file"), wxEmptyString, wxEmptyString, _("TXT file|*.txt|All files|*.*"));
+    if (fileDlg->ShowModal() == wxID_OK){
+        wxString path = fileDlg->GetPath();
+        auditor.openDatabase(path.ToStdString());
+        auditor.loadAll();
+    }
+    delete fileDlg;
+    displayIndices();
+    evt.Skip();
+}
 
+void wxMain::onSave(wxCommandEvent& evt){
+    
+    evt.Skip();
+}
+
+void wxMain::onClose(wxCommandEvent& evt){
+    Destroy();
+    evt.Skip();
+}

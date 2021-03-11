@@ -37,6 +37,8 @@ public:
 
     wxStaticText* m_item_label = nullptr;
 
+    wxMenuBar* m_menu_bar = nullptr;
+
     void addItem(wxCommandEvent& evt);
     void displayIndices();
     void loadArr(wxCommandEvent& evt);
@@ -46,6 +48,10 @@ public:
     void loadButtonClick(wxCommandEvent& evt);
     void sortButton(wxCommandEvent& evt);
     void loadItem(const std::string& index);
+
+    void onOpen(wxCommandEvent& evt);
+    void onClose(wxCommandEvent& evt);
+    void onSave(wxCommandEvent& evt);
 
 
     wxDECLARE_EVENT_TABLE();
